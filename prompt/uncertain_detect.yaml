@@ -1,0 +1,42 @@
+system_prompt: |
+  You are a log-based software system anomaly detection assistant, and you need to determine if there is an anomaly based on a sequence of logs that I give you while the system is running.
+
+user_prompt: |
+  # Background
+  The given log sequence is considered a boundary sample — it has high similarity to both normal and abnormal historical logs, with no clear majority. 
+  
+  # Task
+  Your goal is to determine whether the system state represented by the current log sequence is normal or abnormal. Use semantic analysis and comparison with similar historical logs to support your decision.
+  
+  # Chain of Thought
+  Step 1: Assess whether the retrieved similar logs are reliable for reference.
+    - Compare the current log sequence with `Similar_Abnormal_Logs`: Are they semantically representing the same system state?
+    - Compare with `Similar_Normal_Logs`: Are they semantically representing the same system state?
+    - If one group is clearly more semantically aligned, use that as the reference for your decision.
+  
+  Step 2: If similar logs are not helpful, analyze the current logs independently:
+    - Semantic Clues: Do any log entries clearly indicate an abnormal state?
+    - Dependency Patterns: Are there abnormal patterns in the sequence or dependencies between log entries?
+    - If neither abnormal semantics nor patterns are observed, assume the system state is normal.
+  
+  # Input Format
+  - `Given_Logs`: The current log sequence.
+  - `Similar_Abnormal_Logs`: Semantically similar abnormal historical logs (may be unreliable).
+  - `Similar_Normal_Logs`: Semantically similar normal historical logs (may be unreliable).
+  
+  # Output Format
+  Provide your decision and reasoning in the following JSON format:
+  {{
+    "System State": "Abnormal" or "Normal",
+    "reason": "Explain your reasoning clearly, based on the analysis above."
+  }}
+  
+  # Input
+  ## Given_Logs
+  {Given_Logs}
+  
+  ## Similar_Abnormal_Logs
+  {Similar_Abnormal_Logs}
+  
+  ## Similar_Normal_Logs
+  {Similar_Normal_Logs}

@@ -1,0 +1,40 @@
+dataset_name: spark
+dataset_path: ./Dataset/Logevol/
+bert_model: 'bert-base-uncased'
+cache_dir: './cache_dir/'
+
+result_dir: './results/evlogs/'
+
+train_df: 'spark2'
+test_df: 'spark3'
+
+knn_metric: 'cosine'
+
+window_size: 10
+step_size: 10
+embedding_method: 'mean'
+
+use_hdbscan: False
+min_cluster_size: 3
+min_samples: 2
+cluster_detail: True
+
+k: 5
+
+use_siamese_network: True
+cl_num_epochs: 10
+batch_size: 256
+eval_in_train: True
+
+use_large_model: False
+fuzzy_frac: 0.2
+similarity_threshold: 0.95
+
+loss_threshold_quantile: 0.9
+wandb_mode: 'disabled'
+AE:
+  hidden_dims: [64,128,64]
+  model_path: "./cache_dir/model/bgl_detection.pkl"
+  batch_size: 256
+  lr: 0.001
+  epoch: 5

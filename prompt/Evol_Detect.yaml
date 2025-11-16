@@ -1,0 +1,41 @@
+system_prompt: |
+  You are a log analysis assistant, and you need to determine whether there is an evolutionary relationship between the two given log sequences.
+user_prompt: |
+  # Background
+  As software evolves, developers continuously modify log statements to improve system maintainability and adaptability in new versions. 
+  Log evolution: Minor changes have occurred in log entries and dependencies within the log sequence, but there has been no substantial change in the log semantics or the system state they represent.
+  - Log entry evolution refers to changes in individual log messages after software updates, such as the addition of more descriptive details.
+  - Log sequence evolution refers to changes in the order or dependencies among logs after software evolution.
+
+  # Task
+  Your task is to determine whether there is an evolutionary relationship between the current log sequence `evolution_after` and the log sequences `evolution_before_list` after software version updates, and provide corresponding reasoning.
+  
+  
+  # Input Format
+  - `file_system`: The system from which the logs originate.
+  - `evolution_before`: The log sequence before evolution.
+  - `evolution_after`: The current log sequence to determine if there is an evolutionary relationship.
+
+  **Chain of Thought:**
+  First, carefully analyze the differences between the two log sequences:
+  1. Determine if `evolution_after` represents an abnormal state of the system. If it does, then there is no evolutionary relationship. If it represents a normal state, further analysis is needed.
+  2. If only the content of the log entries has changed slightly (e.g., more descriptive details added) without altering their original "normal" or "abnormal" attributes, then an evolutionary relationship exists.
+  3. If there are slight changes in the order or dependencies of log entries, or if entries are added or deleted but do not have substantial impact, an evolutionary relationship still exists.
+  4. If there are significant changes in the order or dependencies of log entries, or if the semantics and system states represented by the logs differ, then no evolutionary relationship exists.
+
+  # Input
+  ## file_system
+  {file_system}
+
+  ## evolution_before
+  {evolution_before}
+
+  ## evolution_after
+  {evolution_after}
+
+  # Output
+  Please return the result to me in the following JSON format:
+  {{
+    "IsEvol": "True/False", # Whether an evolutionary relationship exists
+    "reason": "Please explain your reasoning process"  # Reasoning for determining the evolutionary relationship
+  }}

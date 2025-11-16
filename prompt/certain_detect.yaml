@@ -1,0 +1,33 @@
+system_prompt: |
+  You are a log-based software system anomaly detection assistant, and you need to determine if there is an anomaly based on a sequence of logs that I give you while the system is running.
+
+user_prompt: |
+  # Background
+  By retrieving log sequences similar to the current `Given_Logs`, we find that most similar logs correspond to the system state: {history_state}. However, the current log sequence might still differ from all historical logs.
+  
+  # Task
+  Your task is to carefully compare the given log sequence with the similar historical logs. If they are semantically consistent, assume the current system state is the same as the similar logs. Otherwise, rely mainly on the semantic content of the current logs to determine whether the system state is normal or abnormal.
+  
+  # Chain of Thought
+  1. Carefully compare each log sequence in `Similar_Logs` with the `Given_Logs`.
+  2. Identify the most semantically aligned log sequence and check whether they follow the same log pattern.
+  3. If a matching pattern is found, use the corresponding system state as the current state.
+  4. If no matching pattern is found, analyze only the semantic information of `Given_Logs` to determine the system state.
+  
+  # Input Format
+  - `Given_Logs`: The current log sequence.
+  - `Similar_Logs`: Historically similar log sequences (may be unreliable and require close inspection).
+  
+  # Output Format
+  Return your conclusion in the following JSON format:
+  {{
+    "System State": "Abnormal" or "Normal",
+    "reason": "Explain your reasoning clearly, based on the comparison and/or semantic analysis."
+  }}
+  
+  # Input
+  ## Given_Logs:
+  {Given_Logs}
+  
+  ## Similar_Logs:
+  {Similar_Logs}
